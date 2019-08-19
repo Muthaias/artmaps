@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Map of public artwork</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=0.8">
+
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+		integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+		crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+		integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+		crossorigin=""></script>
+	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"
+		integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+		crossorigin=""></script>
+	<link rel="stylesheet" type="text/css" href="kartor.css">
+	<script src="data-utility.js"></script>
+	<script src="data-service.js"></script>
+	<script src="ui-control.js"></script>
+	<script src="setting-service.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div id="main-nav" class="nav">
+		</div>
+		<div class="content" id="contentid">
+			<h1>City Safe Art Maps</h1>
+			<h3>Enjoy a selfie-safe art tour in any city</h3>
+			<p>Say cheese! You may take photos with your smartphone of all the publicly displayed works of art in this tour.
+				However, if the artist is still alive, or if less than 70 years have passed since he or she passed away, you
+				may not share these digital photos publicly, e.g. by sharing them on Instagram, Twitter or Facebook. If the
+				artist passed away 70 or more years ago the work has fallen into the public domain and you may share your
+				pictures in anyway you please.
+			</p>
+			<h3>Why is this?</h3>
+			<p>Freedom of panorama (FOP) is a provision in the copyright laws of various jurisdictions that permits taking
+				photographs
+				and video footage and creating other images (such as paintings) of buildings and sometimes sculptures and
+				other art
+				works which are permanently located in a public place, without infringing on any copyright that may
+				otherwise subsist
+				in such works, and the publishing of such images. (<a
+					href="https://en.wikipedia.org/wiki/Freedom_of_panorama">Wikipedia</a>, 2018)
+			</p>
+			<p>A recent court case in Sweden decided that one is <em>not allowed</em> to share photographs of public art
+				with the public
+				through the internet. It does not matter whether the purpose is commercial or not.
+				The court case was between Wikimedia Sweden and BUS (a Swedish collective management organisation for
+				picture artists).
+			</p>
+			<h3>Data sources</h3>
+			<span class="settings" id="sourcesid">
+			</span>
+		</div>
+		<div class="map">
+			<div id="mapid"></div>
+			<img id="maker-party-logo" src="https://learning.mozilla.org/img/pages/events/svg/maker-party-logo.svg">
+		</div>
+	</div>
+	<script>
+const dataService = new DataService([
+	{
+		id: "default",
+		load: (init, entriesCallback, groupsCallback) => {
+			try {
+				const entries = DataUtility.dataToEntries(mapData);
+				const groups = DataUtility.dataToGroups(mapData);
+				entriesCallback(entries);
+				groupsCallback(groups);
+			} catch (e) {
+				entriesCallback([]);
+				groupsCallback([]);
+			}
+		},
+	},
+	{
+		id: "basic_api",
+		load: async (init, entriesCallback, groupsCallback) => {
+			const rootUrl = (init.rootUrl + "/").replace(/\/\/$/g, "/");
+			console.log(rootUrl);
+			fetch(rootUrl + "entries.json").then(response => response.json()).then(entries => {
+				entriesCallback(entries);
+			}).catch(() => entriesCallback([]));
+			fetch(rootUrl + "groups.json").then(response => response.json()).then(groups => {
+				groupsCallback(groups);
+			}).catch(() => groupsCallback([]));
+		}
+	}
+]);
+
+const entryMap = L.map('mapid', {
+	zoom: 15,
+	zoomControl: true
+});
+const settingService = new SettingService("standard", false);
+const uiControl = new UIControl("main-nav", "contentid", "sourcesid", entryMap, dataService, settingService);
+uiControl.init().then(() => {
+	uiControl.render();
+});
+	</script>
+</body>
+
+</html>
