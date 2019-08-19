@@ -1,5 +1,5 @@
 # Disclaimer
-This is not the best code in the world. This is just a tribute. This is not an original idea, it is merely an extension of the work found here: `https://karolina.andersdotter.cc/offentlig-konst/`
+This is not the best code in the world. This is just a tribute. Also this is not an original idea, it is merely an extension of the work found here: `https://karolina.andersdotter.cc/offentlig-konst/`
 
 # PUBLIC ART TRACKER
 This is a single page web-app built to simplify the discovery of public domain artwork
