@@ -98,7 +98,7 @@ const entryMap = L.map('mapid', {
 	zoom: 15,
 	zoomControl: true
 });
-const settingService = new SettingService("standard", false);
+const settingService = new SettingService("standard");
 const uiControl = new UIControl("main-nav", "contentid", "sourcesid", entryMap, dataService, settingService);
 uiControl.init().then(() => {
 	uiControl.render();
