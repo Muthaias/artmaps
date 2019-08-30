@@ -15,5 +15,8 @@ link.
 https://github.com/Muthaias/static-data/tree/master/public-art
 ```
 
-The link can also be pasted into the dialog in the app in order to try out the functionality.
+In order to use the data in the demo repository use the following link in the source dialog:
+```
+https://raw.githubusercontent.com/Muthaias/static-data/master/public-art/
+```
 
