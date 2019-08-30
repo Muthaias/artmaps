@@ -42,7 +42,7 @@ function setupArtMapApplication(initialSources, mainId, contentId, sourcesId, ) 
             }
         }))
     };
-    const settingService = new SettingService("standard3", true, initialSettings);
+    const settingService = new SettingService("standard", true, initialSettings);
     const uiControl = new UIControl(mainId, contentId, sourcesId, entryMap, dataService, settingService);
     uiControl.init().then(() => {
         uiControl.render();
