@@ -1,8 +1,8 @@
 class SettingService {
-    constructor(id, useLocaleStorage = true) {
+    constructor(id, useLocaleStorage = true, initialSettings = null) {
         this._id = id;
         this._useLocalStorage = useLocaleStorage;
-        this._settings = this.loadSettings();
+        this._settings = this.loadSettings() || initialSettings || this._defaultSettings();
     }
 
     get settings() {
@@ -18,18 +18,7 @@ class SettingService {
                 settings = JSON.parse(data);
             } catch (e) {}
         }
-        
-        return settings || {
-            sources: [
-                {
-                    uid: "_source_default",
-                    id: "basic_api",
-                    init: {
-                        rootUrl: "api/"
-                    }
-                },
-            ],
-        };
+        return settings;
     }
 
     storeSettings(settings) {
@@ -52,5 +41,20 @@ class SettingService {
 
     removeSource(uid) {
         this._settings.sources = this._settings.sources.filter(s => s.uid !== uid);
+        this.storeSettings(this._settings);
+    }
+
+    static _defaultSettings() {
+        return {
+            sources: [
+                {
+                    uid: "_source_default",
+                    id: "basic_api",
+                    init: {
+                        rootUrl: "api/"
+                    }
+                },
+            ],
+        };
     }
 }
