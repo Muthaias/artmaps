@@ -20,3 +20,9 @@ In order to use the data in the demo repository use the following link in the so
 https://raw.githubusercontent.com/Muthaias/static-data/master/public-art/
 ```
 
+# Vendor dependencies
+This system depends on the following javascript libraries:
+* jQuery (MIT License)
+* Leaflet (BSD 2-Clause License)
+
+These dependencies have been included in a minfied form in order to guarantee completeness.
